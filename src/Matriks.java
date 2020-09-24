@@ -88,6 +88,90 @@ public class Matriks {
         }
     }
     
+    /* OPERASI MATRIKS KALI TAMBAH KURANG */
+
+    public void KaliBaris ( int i, double num){
+        // Kita validasi Barisnya dulu
+        // Baris tidak valid bila berada dibawah 0 dan diatas baris
+        if (i < 0 || i > baris){
+            System.out.printf("Baris tidak valid");
+        }
+        else{
+            for (int j = 0; j < kolom; j ++ ){
+                this.mtrx[i][j] *= num;
+                // Jadi baris tersebut akan dikali dengan double num untuk semua kolomnya dari 0 sampai jumlahKolom-1
+            }
+        }
+    }
+    
+    public Matriks KaliMatriks(Matriks M1, Matriks M2){
+        Matriks res = new Matriks(M1.baris, M1.kolom,M1.determinan);
+        for (int i = 0; i < res.baris; i++){
+            for (int j = 0; j < res.kolom; j++){
+                res.mtrx[i][j] = 0;
+                for (int k = 0; k < this.kolom; k++){
+                    res.mtrx[i][j] += M1.mtrx[i][j] * M2.mtrx[i][j];
+                }
+            }
+        }
+        res.determinan = getDeterminan();
+        return res;
+    }
+
+    public void TambahBaris ( int i, int j){
+         // Kita validasi Barisnya dulu
+        // Baris tidak valid bila berada dibawah 0 dan diatas baris
+        if (i < 0 || i > baris){
+            System.out.printf("Baris tidak valid");
+        }
+        else{
+            for (int k = 0; k < kolom; k ++ ){
+                this.mtrx[i][k] += this.mtrx[j][k];
+            }
+        }
+    }
+    public Matriks TambahMatriks(Matriks M1, Matriks M2){
+        Matriks res = new Matriks(M1.baris, M1.kolom,M1.determinan);
+        for (int i = 0; i < res.baris; i++){
+            for (int j = 0; j < res.kolom; j++){
+                res.mtrx[i][j] = 0;
+                for (int k = 0; k < this.kolom; k++){
+                    res.mtrx[i][j] += M1.mtrx[i][j] + M2.mtrx[i][j];
+                }
+            }
+        }
+        res.determinan = getDeterminan();
+        return res;
+    }
+
+
+    public void KurangBaris ( int i, int j){
+         // Kita validasi Barisnya dulu
+        // Baris tidak valid bila berada dibawah 0 dan diatas baris
+        if (i < 0 || i > baris){
+            System.out.printf("Baris tidak valid");
+        }
+        else{
+            for (int k = 0; k < kolom; k ++ ){
+                this.mtrx[i][k] -= this.mtrx[j][k];
+            }
+        }
+    }
+
+    public Matriks KurangMatriks(Matriks M1, Matriks M2){
+        Matriks res = new Matriks(M1.baris, M1.kolom,M1.determinan);
+        for (int i = 0; i < res.baris; i++){
+            for (int j = 0; j < res.kolom; j++){
+                res.mtrx[i][j] = 0;
+                for (int k = 0; k < this.kolom; k++){
+                    res.mtrx[i][j] += M1.mtrx[i][j] - M2.mtrx[i][j];
+                }
+            }
+        }
+        res.determinan = getDeterminan();
+        return res;
+    }
+
     /* ADVANCE GETTER (DETERMINAN, INVERS, MINOR, COFACTR, TRANSPOSE) */
     
     public float getDeterminan(){
