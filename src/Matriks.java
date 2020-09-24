@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tubesalgeo;
+// package tubesalgeo;
 
 import static java.lang.Math.pow;
 import java.text.DecimalFormat;
-import java.util.Arrays;
+// import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -185,7 +185,7 @@ public class Matriks {
     
     private float[][] getMatriksNonSejajar(int i, int j){
         
-        int a,b,c; int countRow=0,countCol=0;
+        int a,b; int countRow=0,countCol=0;
         int brs = this.baris;
         int kol = this.kolom;
         float[][] temp = new float[brs-1][kol-1];
@@ -262,20 +262,20 @@ public class Matriks {
         return res;
     }
     
-    private void debugarr(float[][] debugee){
-        int a,b;
-        System.out.println("======================");
-        System.out.println("**  MATRIX DEBUG   ***");
-        System.out.println("======================");
-        for(a=0;a<debugee.length;a++){
-            for(b=0;b<debugee[0].length;b++){
-                System.out.print(debugee[a][b]+" ");
-            }
-            System.out.println("");
-        }
+    // private void debugarr(float[][] debugee){
+    //     int a,b;
+    //     System.out.println("======================");
+    //     System.out.println("**  MATRIX DEBUG   ***");
+    //     System.out.println("======================");
+    //     for(a=0;a<debugee.length;a++){
+    //         for(b=0;b<debugee[0].length;b++){
+    //             System.out.print(debugee[a][b]+" ");
+    //         }
+    //         System.out.println("");
+    //     }
         
-        System.out.println("----END--DEBUG---------\n");
-    }
+    //     System.out.println("----END--DEBUG---------\n");
+    // }
     
     
     /*  == KODE TIDAK TERPAKAI (TAPI SIAPA TAU NANTI KEPAKE HEHE) ==
