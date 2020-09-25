@@ -276,8 +276,8 @@ public class Matriks {
                 M2.mtrx[i][j] = M.mtrx[i][j];
             }
         }
-        M2.determinan = getDeterminan();
-        double D = M2.determinan;
+        
+        float D = M2.getDeterminan();
         
         if (size == 2){
             Matriks Mx = new Matriks(M.baris, M.kolom-1,M.determinan);
@@ -298,12 +298,10 @@ public class Matriks {
                 Mx.mtrx[i][0] = M.mtrx[i][3];
                 My.mtrx[i][1] = M.mtrx[i][3];
             }
-            Mx.determinan = getDeterminan();
-            My.determinan = getDeterminan();
-            double Dx = Mx.determinan;
-            double Dy = My.determinan;
-            double resX = Dx/D;
-            double resY = Dy/D;
+            float Dx = Mx.getDeterminan();
+            float Dy = My.getDeterminan();
+            float resX = Dx/D;
+            float resY = Dy/D;
             Matriks Hasil = new Matriks(1, 2,1);
             Hasil.mtrx[0][0] = resX;
             Hasil.mtrx[0][1] = resY;
@@ -334,15 +332,13 @@ public class Matriks {
                 My.mtrx[i][1] = M.mtrx[i][3];
                 Mz.mtrx[i][2] = M.mtrx[i][3];
             }
-            Mx.determinan = getDeterminan();
-            My.determinan = getDeterminan();
-            Mz.determinan = getDeterminan();
-            double Dx = Mx.determinan;
-            double Dy = My.determinan;
-            double Dz = Mz.determinan;
-            double resX = Dx/D;
-            double resY = Dy/D;
-            double resZ = Dz/D;
+
+            float Dx = Mx.getDeterminan();
+            float Dy = My.getDeterminan();
+            float Dz = Mz.getDeterminan();
+            float resX = Dx/D;
+            float resY = Dy/D;
+            float resZ = Dz/D;
             Matriks Hasil = new Matriks(1, 3,1);
             Hasil.mtrx[0][0] = resX;
             Hasil.mtrx[0][1] = resY;
@@ -353,6 +349,7 @@ public class Matriks {
         else{
             System.out.println("Silahkan gunakan metode lain");
         }
+        return M;
 
 
     }
