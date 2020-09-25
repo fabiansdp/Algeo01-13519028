@@ -268,35 +268,35 @@ public class Matriks {
     }
     
     /* CRAMER */
-    public Matriks Cramer (Matriks M, int size){
-        Matriks M2 = new Matriks(M.baris, M.kolom-1,M.determinan);
+    public Matriks Cramer (int size){
+        Matriks M2 = new Matriks(this.baris, this.kolom-1,this.determinan);
         
         for (int i = 0; i < M2.baris;i++){
             for (int j = 0; j < M2.baris;j++){
-                M2.mtrx[i][j] = M.mtrx[i][j];
+                M2.mtrx[i][j] = this.mtrx[i][j];
             }
         }
         
         float D = M2.getDeterminan();
         
         if (size == 2){
-            Matriks Mx = new Matriks(M.baris, M.kolom-1,M.determinan);
-            Matriks My = new Matriks(M.baris, M.kolom-1,M.determinan);
+            Matriks Mx = new Matriks(this.baris, this.kolom-1,this.determinan);
+            Matriks My = new Matriks(this.baris, this.kolom-1,this.determinan);
             for (int i = 0; i < M2.baris;i++){
                 for (int j = 0; j < M2.baris;j++){
                     if (j!=0){
-                        Mx.mtrx[i][j] = M.mtrx[i][j];
+                        Mx.mtrx[i][j] = this.mtrx[i][j];
                     }
                     if (j!=1){
-                        My.mtrx[i][j] = M.mtrx[i][j];
+                        My.mtrx[i][j] = this.mtrx[i][j];
                     }
                     
                 }
             }
 
             for (int i = 0; i < M2.baris;i++){
-                Mx.mtrx[i][0] = M.mtrx[i][3];
-                My.mtrx[i][1] = M.mtrx[i][3];
+                Mx.mtrx[i][0] = this.mtrx[i][3];
+                My.mtrx[i][1] = this.mtrx[i][3];
             }
             float Dx = Mx.getDeterminan();
             float Dy = My.getDeterminan();
@@ -309,28 +309,28 @@ public class Matriks {
             
         }
         else if (size == 3){
-            Matriks Mx = new Matriks(M.baris, M.kolom-1,M.determinan);
-            Matriks My = new Matriks(M.baris, M.kolom-1,M.determinan);
-            Matriks Mz = new Matriks(M.baris, M.kolom-1,M.determinan);
+            Matriks Mx = new Matriks(this.baris, this.kolom-1,this.determinan);
+            Matriks My = new Matriks(this.baris, this.kolom-1,this.determinan);
+            Matriks Mz = new Matriks(this.baris, this.kolom-1,this.determinan);
             for (int i = 0; i < M2.baris;i++){
                 for (int j = 0; j < M2.baris;j++){
                     if (j!=0){
-                        Mx.mtrx[i][j] = M.mtrx[i][j];
+                        Mx.mtrx[i][j] = this.mtrx[i][j];
                     }
                     if (j!=1){
-                        My.mtrx[i][j] = M.mtrx[i][j];
+                        My.mtrx[i][j] = this.mtrx[i][j];
                     }
                     if (j!=2){
-                        Mz.mtrx[i][j] = M.mtrx[i][j];
+                        Mz.mtrx[i][j] = this.mtrx[i][j];
                     }
                     
                 }
             }
 
             for (int i = 0; i < M2.baris;i++){
-                Mx.mtrx[i][0] = M.mtrx[i][3];
-                My.mtrx[i][1] = M.mtrx[i][3];
-                Mz.mtrx[i][2] = M.mtrx[i][3];
+                Mx.mtrx[i][0] = this.mtrx[i][3];
+                My.mtrx[i][1] = this.mtrx[i][3];
+                Mz.mtrx[i][2] = this.mtrx[i][3];
             }
 
             float Dx = Mx.getDeterminan();
@@ -349,10 +349,11 @@ public class Matriks {
         else{
             System.out.println("Silahkan gunakan metode lain");
         }
-        return M;
+        return this;
 
 
     }
+
     /* DAPUR INTERNAL, BIAR GA DIPAKE AMA PUBLIK */
     
     private float[][] getMatriksNonSejajar(int i, int j){
