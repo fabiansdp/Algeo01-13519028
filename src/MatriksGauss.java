@@ -4,9 +4,11 @@
  * MatriksGauss
  */
 public class MatriksGauss extends Matriks {
+    // Deklarasi
     public MatriksGauss(int baris, int kolom) {
         super(baris,kolom);
     }
+
     // ALgoritma Gauss Elimination
     public Matriks getGaussMatriks() {
         int baris = this.baris;
@@ -86,10 +88,36 @@ public class MatriksGauss extends Matriks {
     }
 
     // Solusi untuk Eliminasi Gauss
-    
+    public void solusiGauss() {
+        // Ubah ke matriks eselon baris
+        this.getGaussMatriks();
+
+        // Array buat simpan jawaban
+        int jmlhVar = this.baris;
+        float[] arrJawab = new float[jmlhVar];
+
+        for (int i = jmlhVar-1; i>=0; i--) {
+            // Konstanta setiap persamaan
+            arrJawab[i] = this.mtrx[i][jmlhVar];
+
+            for (int j = i+1; j<jmlhVar; j++) {
+                arrJawab[i] = arrJawab[i] - this.mtrx[i][j]*arrJawab[j];
+            }
+            // Bagi konstanta dengan koefisien leading
+            arrJawab[i] = arrJawab[i]/this.mtrx[i][i];
+        }
+
+        for (int i = 0; i<jmlhVar; i++) {
+            System.out.println("Solusi X"+(i)+":");
+            System.out.printf("%.2f\n", arrJawab[i]);
+        }
+    }
 
     // Solusi untuk Eliminasi Gauss Jordan
     public void solusiGaussJordan() {
+        // Ubah ke versi matriks eselon baris tereduksi
+        this.getGaussJordan();
+
         for (int i = 0; i<baris; i++) {
             float x = this.mtrx[i][baris]/this.mtrx[i][i];
             System.out.println("Solusi X"+(i)+":");
@@ -97,6 +125,8 @@ public class MatriksGauss extends Matriks {
         }
     }
 
+    /*FUNGSI-FUNGSI PRIVATE YANG TIDAK DIPAKAI DI MAIN.JAVA */
+    // Fungsi tukar baris
     private void swap(int i, int j) {
         for (int k=0; k<this.kolom; k++) {
             float temp = this.mtrx[i][k];
@@ -105,6 +135,7 @@ public class MatriksGauss extends Matriks {
         }
     }
 
+    // Fungsi bilangan mutlak
     private float abs(float num) {
         if (num < 0) {
             return num*-1;

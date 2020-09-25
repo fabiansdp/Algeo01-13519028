@@ -7,7 +7,6 @@
 
 import static java.lang.Math.pow;
 import java.text.DecimalFormat;
-// import java.util.Arrays;
 import java.util.Scanner;
 
 /**
