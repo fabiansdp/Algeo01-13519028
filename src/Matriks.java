@@ -22,12 +22,14 @@ public class Matriks {
     //boolean isCofactor = false;
 
     /* KONSTRUKTOR */
-    public Matriks(int baris, int kolom){
+    public Matriks(int baris, int kolom, boolean diIsiJuga){
         this.baris  = baris;
         this.kolom = kolom;
         this.mtrx = new float[baris][kolom];
-        isiMatriks();
-        this.determinan = this.getDeterminanLokal(mtrx);
+        if(diIsiJuga){
+            isiMatriks();
+            this.determinan = this.getDeterminanLokal(mtrx);
+        }
     }
     
     public Matriks(int baris, int kolom, float determinan){
@@ -175,6 +177,7 @@ public class Matriks {
     
     public float getDeterminan(){
         if(this.isMatrixSquare()){
+            this.determinan = this.getDeterminanLokal(this.mtrx);
             return this.determinan;
         }else{
             System.out.println("matriks tidak memiliki determinan");
