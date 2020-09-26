@@ -358,21 +358,28 @@ public class Matriks {
     /* INTERPOLASI */
     public float Interpolasi(float num){
         float hasil = 0;
-        MatriksGauss res = new MatriksGauss(this.baris, this.kolom+2, false);
-        for (int i = 0; i < this.baris;i++){
-            for (int j= 0 ; j < this.kolom+2; j++){
-                if (j==this.kolom+1){
+        MatriksGauss res = new MatriksGauss(this.baris, this.baris+1, false);
+        for (int i = 0; i < res.baris;i++){
+            for (int j= 0 ; j < res.kolom; j++){
+                if (j==0){
+                    res.mtrx[i][j] = 1;
+                }
+                else if (j == this.baris){
                     res.mtrx[i][j] = this.mtrx[i][1];
                 }
                 else{
                     res.mtrx[i][j] = (float) Math.pow(this.mtrx[i][0],j);
                 }
+                
+
             }
         }
+
         res.getGaussJordan();
-        for (int k=0; k<res.baris;k++){
-            hasil += (res.mtrx[k][res.kolom-1] * Math.pow(num, k));
+        for (int k = 0; k < res.baris;k++){
+            hasil += (res.mtrx[k][res.kolom-1] * (Math.pow(num, k)));
         }
+
         return hasil;
     }
     /* DAPUR INTERNAL, BIAR GA DIPAKE AMA PUBLIK */
