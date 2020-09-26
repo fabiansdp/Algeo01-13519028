@@ -8,6 +8,7 @@
 import static java.lang.Math.pow;
 import java.text.DecimalFormat;
 import java.util.Scanner;
+import java.lang.Math;
 
 /**
  *
@@ -354,6 +355,26 @@ public class Matriks {
 
     }
 
+    /* INTERPOLASI */
+    public float Interpolasi(float num){
+        float hasil = 0;
+        MatriksGauss res = new MatriksGauss(this.baris, this.kolom+2, false);
+        for (int i = 0; i < this.baris;i++){
+            for (int j= 0 ; j < this.kolom+2; j++){
+                if (j==this.kolom+1){
+                    res.mtrx[i][j] = this.mtrx[i][1];
+                }
+                else{
+                    res.mtrx[i][j] = (float) Math.pow(this.mtrx[i][0],j);
+                }
+            }
+        }
+        res.getGaussJordan();
+        for (int k=0; k<res.baris;k++){
+            hasil += (res.mtrx[k][res.kolom-1] * Math.pow(num, k));
+        }
+        return hasil;
+    }
     /* DAPUR INTERNAL, BIAR GA DIPAKE AMA PUBLIK */
     
     private float[][] getMatriksNonSejajar(int i, int j){
