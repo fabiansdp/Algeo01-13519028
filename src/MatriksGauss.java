@@ -5,8 +5,8 @@
  */
 public class MatriksGauss extends Matriks {
     // Deklarasi
-    public MatriksGauss(int baris, int kolom) {
-        super(baris,kolom);
+    public MatriksGauss(int baris, int kolom, boolean isi) {
+        super(baris,kolom,isi);
     }
 
     // ALgoritma Gauss Elimination
@@ -47,6 +47,9 @@ public class MatriksGauss extends Matriks {
                 this.mtrx[i][k] = 0;
             }
         }
+
+        this.bagiLeadCoef();
+
         return this;
     }
 
@@ -84,6 +87,8 @@ public class MatriksGauss extends Matriks {
                 }
             }
         }
+        this.bagiLeadCoef();
+
         return this;
     }
 
@@ -103,8 +108,6 @@ public class MatriksGauss extends Matriks {
             for (int j = i+1; j<jmlhVar; j++) {
                 arrJawab[i] = arrJawab[i] - this.mtrx[i][j]*arrJawab[j];
             }
-            // Bagi konstanta dengan koefisien leading
-            arrJawab[i] = arrJawab[i]/this.mtrx[i][i];
         }
 
         for (int i = 0; i<jmlhVar; i++) {
@@ -142,5 +145,37 @@ public class MatriksGauss extends Matriks {
         } else {
             return num;
         }
+    }
+
+    // Fungsi cari bilangan utama setiap baris
+    private float getLeadCoef(int i) {
+        boolean found = false;
+        int kolom = this.kolom;
+        float leadCoef = 0;
+        int j = 0;
+
+        while ((!found) && (j<kolom)) {
+            if (this.mtrx[i][j]!=0) {
+                leadCoef = this.mtrx[i][j];
+                found = true;
+            } else {
+                j++;
+            }
+        }
+
+        return leadCoef;
+    }
+
+    // Bagi leadCoef
+    private void bagiLeadCoef() {
+
+        for (int i = 0; i<baris; i++) {
+            float leadCoef = this.getLeadCoef(i);
+            for (int j = 0; j<kolom; j++) {
+                if (leadCoef!=0) {
+                    this.mtrx[i][j] = this.mtrx[i][j]/leadCoef;
+                }
+            }
+        }       
     }
 }

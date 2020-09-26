@@ -1,7 +1,7 @@
 class main {
         public static void main(String[] args) {
-                Matriks m = new Matriks(3, 4, true);
-                Matriks n = m.Cramer(3);
-                n.tampilinMatriks();
+                MatriksGauss m = new MatriksGauss(3, 4, true);
+                m.getGaussJordan().tampilinMatriks();
+                m.solusiGaussJordan();
         }
 }
