@@ -3,8 +3,8 @@ class main {
 
 
                 MatriksGauss n = new MatriksGauss(3, 2, true);
-                float tempik = n.Interpolasi((float) 9.2);
-                System.out.println(tempik);
+                float sementara = n.Interpolasi((float) 9.2);
+                System.out.println(sementara);
 
                 
                 
