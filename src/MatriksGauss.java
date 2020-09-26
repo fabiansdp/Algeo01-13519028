@@ -171,8 +171,8 @@ public class MatriksGauss extends Matriks {
 
         for (int i = 0; i<baris; i++) {
             float leadCoef = this.getLeadCoef(i);
-            for (int j = 0; j<kolom; j++) {
-                if (leadCoef!=0) {
+            if (leadCoef!=0) {
+                for (int j = 0; j<kolom; j++) {
                     this.mtrx[i][j] = this.mtrx[i][j]/leadCoef;
                 }
             }
