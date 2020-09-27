@@ -90,31 +90,97 @@ public class MatriksGauss extends Matriks {
 
     // Solusi untuk Eliminasi Gauss
     public void solusiGauss() {
-        // Array buat simpan jawaban
-        int jmlhVar = this.baris;
-        double[] arrJawab = new double[jmlhVar];
+        if (this.getType()==1) {
+            // Array buat simpan jawaban
+            int jmlhVar = this.baris;
+            double[] arrJawab = new double[jmlhVar];
 
-        for (int i = jmlhVar-1; i>=0; i--) {
-            // Konstanta setiap persamaan
-            arrJawab[i] = this.mtrx[i][jmlhVar];
+            for (int i = jmlhVar-1; i>=0; i--) {
+                // Konstanta setiap persamaan
+                arrJawab[i] = this.mtrx[i][jmlhVar];
 
-            for (int j = i+1; j<jmlhVar; j++) {
-                arrJawab[i] = arrJawab[i] - this.mtrx[i][j]*arrJawab[j];
+                for (int j = i+1; j<jmlhVar; j++) {
+                    arrJawab[i] = arrJawab[i] - this.mtrx[i][j]*arrJawab[j];
+                }
             }
-        }
 
-        for (int i = 0; i<jmlhVar; i++) {
-            System.out.println("Solusi X"+(i)+":");
-            System.out.printf("%.2f\n", arrJawab[i]);
+            for (int i = 0; i<jmlhVar; i++) {
+                System.out.print("Solusi X"+(i)+" = ");
+                System.out.printf("%.2f\n", arrJawab[i]);
+            }
+        } else if (this.getType()==2) {
+            for (int i = this.baris-1; i>=0; i--) {
+                double leadCoef = this.mtrx[i][idxLeadCoef(i)];
+                double konstan = this.mtrx[i][this.kolom-1]/leadCoef;
+                boolean firstVar = true;
+
+                // Print solusi
+                System.out.print("Solusi X"+(idxLeadCoef(i))+" = ");
+                for (int j = idxLeadCoef(i)+1; j<this.kolom-1; j++) {
+                    if (this.mtrx[i][j]/leadCoef>0) {
+                        System.out.printf("- %.2f",(this.mtrx[i][j]/leadCoef));
+                        System.out.print("X"+(j)+" ");
+                    }
+                    if (this.mtrx[i][j]/leadCoef<0) {
+                        if (firstVar) {
+                            System.out.printf("%.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                            firstVar = false;
+                        } else {
+                            System.out.printf("+ %.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                        }
+                        System.out.print("X"+(j)+" ");
+                    }
+                }
+                if (konstan>=0) {
+                    System.out.printf("+ %.2f\n",konstan);
+                } else if (konstan<0) {
+                    System.out.printf("- %.2f\n",(konstan)*-1);
+                }
+            }
+        } else if (this.getType()==3) {
+            System.out.println("SPL tidak memiliki solusi.");
         }
     }
 
     // Solusi untuk Eliminasi Gauss Jordan
     public void solusiGaussJordan() {
-        for (int i = 0; i<baris; i++) {
-            double x = this.mtrx[i][baris]/this.mtrx[i][i];
-            System.out.println("Solusi X"+(i)+":");
-            System.out.printf("%.2f\n", x);
+        if (this.getType()==1) {
+            for (int i = 0; i<baris; i++) {
+                double x = this.mtrx[i][baris]/this.mtrx[i][i];
+                System.out.print("Solusi X"+(i)+" = ");
+                System.out.printf("%.2f\n", x);
+            } 
+        } else if (this.getType()==2) {
+            for (int i = this.baris-1; i>=0; i--) {
+                double leadCoef = this.mtrx[i][idxLeadCoef(i)];
+                double konstan = this.mtrx[i][this.kolom-1]/leadCoef;
+                boolean firstVar = true;
+
+                // Print solusi
+                System.out.print("Solusi X"+(idxLeadCoef(i))+" = ");
+                for (int j = idxLeadCoef(i)+1; j<this.kolom-1; j++) {
+                    if (this.mtrx[i][j]/leadCoef>0) {
+                        System.out.printf("- %.2f",(this.mtrx[i][j]/leadCoef));
+                        System.out.print("X"+(j)+" ");
+                    }
+                    if (this.mtrx[i][j]/leadCoef<0) {
+                        if (firstVar) {
+                            System.out.printf("%.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                            firstVar = false;
+                        } else {
+                            System.out.printf("+ %.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                        }
+                        System.out.print("X"+(j)+" ");
+                    }
+                }
+                if (konstan>=0) {
+                    System.out.printf("+ %.2f\n",konstan);
+                } else if (konstan<0) {
+                    System.out.printf("- %.2f\n",(konstan)*-1);
+                }
+            }
+        } else if (this.getType()==3) {
+            System.out.println("SPL tidak memiliki solusi.");
         }
     }
 
@@ -127,18 +193,6 @@ public class MatriksGauss extends Matriks {
             }
         }
         return temp;
-    }
-
-    // Fungsi ambil matriks koefisien
-    // Input berupa matriks augmented
-    public MatriksGauss getCoefMtrx(MatriksGauss M) {
-        MatriksGauss hasil = new MatriksGauss(M.baris,M.kolom-1,false);
-        for (int i = 0; i<M.baris; i++) {
-            for (int j = 0; j<M.kolom-1; j++) {
-                hasil.mtrx[i][j] = M.mtrx[i][j];
-            }
-        }
-        return hasil;
     }
 
     /*FUNGSI-FUNGSI PRIVATE YANG TIDAK DIPAKAI DI MAIN.JAVA */
