@@ -28,7 +28,6 @@ public class MatriksGauss extends Matriks {
             }
 
             if (this.mtrx[k][pivotIdx]==0) {
-                System.out.println("Matriks gaada penyelesaiaan");
                 return this;
             }
 
@@ -68,12 +67,9 @@ public class MatriksGauss extends Matriks {
                     c++;
                 }
                 if ((i+c)==baris) {
-                    System.out.println("Tidak bisa diubah");
                     return this;
                 }
                 swap(i, i+c);
-                this.tampilinMatriks();
-                System.out.println("");
             }
             
             // Mengubah menuju matriks eselon baris tereduksi
@@ -94,9 +90,6 @@ public class MatriksGauss extends Matriks {
 
     // Solusi untuk Eliminasi Gauss
     public void solusiGauss() {
-        // Ubah ke matriks eselon baris
-        this.getGaussMatriks();
-
         // Array buat simpan jawaban
         int jmlhVar = this.baris;
         float[] arrJawab = new float[jmlhVar];
@@ -118,14 +111,34 @@ public class MatriksGauss extends Matriks {
 
     // Solusi untuk Eliminasi Gauss Jordan
     public void solusiGaussJordan() {
-        // Ubah ke versi matriks eselon baris tereduksi
-        this.getGaussJordan();
-
         for (int i = 0; i<baris; i++) {
             float x = this.mtrx[i][baris]/this.mtrx[i][i];
             System.out.println("Solusi X"+(i)+":");
             System.out.printf("%.2f\n", x);
         }
+    }
+
+    // Fungsi copy matriks
+    public MatriksGauss copyMatriks(MatriksGauss M){
+        MatriksGauss temp = new MatriksGauss(M.baris,M.kolom,false);
+        for (int i=0; i<M.baris; i++) {
+            for (int j=0; j<M.kolom; j++) {
+                temp.mtrx[i][j] = M.mtrx[i][j];
+            }
+        }
+        return temp;
+    }
+
+    // Fungsi ambil matriks koefisien
+    // Input berupa matriks augmented
+    public MatriksGauss getCoefMtrx(MatriksGauss M) {
+        MatriksGauss hasil = new MatriksGauss(M.baris,M.kolom-1,false);
+        for (int i = 0; i<M.baris; i++) {
+            for (int j = 0; j<M.kolom-1; j++) {
+                hasil.mtrx[i][j] = M.mtrx[i][j];
+            }
+        }
+        return hasil;
     }
 
     /*FUNGSI-FUNGSI PRIVATE YANG TIDAK DIPAKAI DI MAIN.JAVA */
@@ -177,5 +190,61 @@ public class MatriksGauss extends Matriks {
                 }
             }
         }       
+    }
+
+    // Fungsi cari index kolom lead koefisien suatu baris
+    private int idxLeadCoef(int i) {
+        int j = 0;
+
+        while (j<this.kolom) {
+            if (this.mtrx[i][j] != 0) {
+                return j;
+            } else {
+                j++;
+            }
+        }
+
+        return j;
+    }
+
+    // Fungsi untuk menentukan apakah suatu baris matriks hanya berisi 0
+    private boolean isBaris0(int i) {
+        boolean isNol = true;
+        int j = 0;
+
+        while ((isNol) && (j<this.kolom)) {
+            if (this.mtrx[i][j]!=0) {
+                isNol = false;
+            } else {
+                j++;
+            }
+        }
+
+        return isNol;
+    }
+
+    /* Fungsi untuk menentukan tipe matriks: 
+     1 = solusi unik 
+     2 = banyak solusi
+     3 = tidak ada solusi
+    */
+    private int getType() {
+        int i = this.baris-1;
+
+        if (!isBaris0(i) && (i>=0)) {
+            // Jika lead coef di kolom terakhir
+            if (idxLeadCoef(i)==this.kolom-1) {
+                return 3;
+            } else {
+                for (int j=idxLeadCoef(i)+1; j<this.kolom-1; j++) {
+                    if (this.mtrx[i][j]!=0) {
+                        return 2;
+                    }
+                }
+            }
+        } else {
+            i--;
+        }
+        return 1;
     }
 }
