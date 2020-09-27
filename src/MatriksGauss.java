@@ -17,7 +17,7 @@ public class MatriksGauss extends Matriks {
         for (int k = 0; k<baris; k++) {
             // Inisialisasi nilai dan index untuk ditukar
             int pivotIdx = k;
-            float pivotMax = this.mtrx[pivotIdx][k];
+            double pivotMax = this.mtrx[pivotIdx][k];
 
             // Cari nilai max yg lebih besar buat ditukar 
             // jika ada
@@ -38,7 +38,7 @@ public class MatriksGauss extends Matriks {
 
             // Ubah menjadi matriks eselon baris
             for (int i= k+1; i<baris; i++) {
-                float ratio = this.mtrx[i][k]/this.mtrx[k][k];
+                double ratio = this.mtrx[i][k]/this.mtrx[k][k];
 
                 for (int j=k+1; j<kolom; j++) {
                     this.mtrx[i][j] = this.mtrx[i][j] - (ratio*this.mtrx[k][j]);
@@ -56,7 +56,7 @@ public class MatriksGauss extends Matriks {
     public Matriks getGaussJordan() {
         int baris = this.baris;
         int kolom = this.kolom;
-        float ratio;
+        double ratio;
 
         for (int i = 0; i<baris; i++) {
             // Mencari leading coefficient jika baris pertama
@@ -92,7 +92,7 @@ public class MatriksGauss extends Matriks {
     public void solusiGauss() {
         // Array buat simpan jawaban
         int jmlhVar = this.baris;
-        float[] arrJawab = new float[jmlhVar];
+        double[] arrJawab = new double[jmlhVar];
 
         for (int i = jmlhVar-1; i>=0; i--) {
             // Konstanta setiap persamaan
@@ -112,7 +112,7 @@ public class MatriksGauss extends Matriks {
     // Solusi untuk Eliminasi Gauss Jordan
     public void solusiGaussJordan() {
         for (int i = 0; i<baris; i++) {
-            float x = this.mtrx[i][baris]/this.mtrx[i][i];
+            double x = this.mtrx[i][baris]/this.mtrx[i][i];
             System.out.println("Solusi X"+(i)+":");
             System.out.printf("%.2f\n", x);
         }
@@ -145,14 +145,14 @@ public class MatriksGauss extends Matriks {
     // Fungsi tukar baris
     private void swap(int i, int j) {
         for (int k=0; k<this.kolom; k++) {
-            float temp = this.mtrx[i][k];
+            double temp = this.mtrx[i][k];
             this.mtrx[i][k] = this.mtrx[j][k];
             this.mtrx[j][k] = temp;
         }
     }
 
     // Fungsi bilangan mutlak
-    private float abs(float num) {
+    private double abs(double num) {
         if (num < 0) {
             return num*-1;
         } else {
@@ -161,10 +161,10 @@ public class MatriksGauss extends Matriks {
     }
 
     // Fungsi cari bilangan utama setiap baris
-    private float getLeadCoef(int i) {
+    private double getLeadCoef(int i) {
         boolean found = false;
         int kolom = this.kolom;
-        float leadCoef = 0;
+        double leadCoef = 0;
         int j = 0;
 
         while ((!found) && (j<kolom)) {
@@ -183,7 +183,7 @@ public class MatriksGauss extends Matriks {
     private void bagiLeadCoef() {
 
         for (int i = 0; i<baris; i++) {
-            float leadCoef = this.getLeadCoef(i);
+            double leadCoef = this.getLeadCoef(i);
             if (leadCoef!=0) {
                 for (int j = 0; j<kolom; j++) {
                     this.mtrx[i][j] = this.mtrx[i][j]/leadCoef;
