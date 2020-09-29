@@ -17,8 +17,8 @@ import java.lang.Math;
 public class Matriks {
     int baris;
     int kolom;
-    float determinan;
-    float[][] mtrx;
+    double determinan;
+    double[][] mtrx;
     //boolean isMinor = false;
     //boolean isCofactor = false;
 
@@ -26,17 +26,17 @@ public class Matriks {
     public Matriks(int baris, int kolom, boolean diIsiJuga){
         this.baris  = baris;
         this.kolom = kolom;
-        this.mtrx = new float[baris][kolom];
+        this.mtrx = new double[baris][kolom];
         if(diIsiJuga){
             isiMatriks();
             this.determinan = this.getDeterminanLokal(mtrx);
         }
     }
     
-    public Matriks(int baris, int kolom, float determinan){
+    public Matriks(int baris, int kolom, double determinan){
         this.baris  = baris;
         this.kolom = kolom;
-        this.mtrx = new float[baris][kolom];
+        this.mtrx = new double[baris][kolom];
         this.determinan = determinan;
     }
     
@@ -44,7 +44,7 @@ public class Matriks {
     public void resetMatriks(int baris,int kolom){
         this.baris = baris;
         this.kolom = kolom;
-        this.mtrx = new float[baris][kolom];
+        this.mtrx = new double[baris][kolom];
         this.isiMatriks();
         this.determinan = this.getDeterminanLokal(mtrx);
     }
@@ -72,11 +72,11 @@ public class Matriks {
         return this.kolom;
     }
     
-    public float getElement(int row,int col){
+    public double getElement(int row,int col){
         return this.mtrx[row][col];
     }
     
-    public void setElement(int row, int col, float value){
+    public void setElement(int row, int col, double value){
         this.mtrx[row][col] = value;
     }
     
@@ -191,7 +191,7 @@ public class Matriks {
 
     /* ADVANCE GETTER (DETERMINAN, INVERS, MINOR, COFACTR, TRANSPOSE) */
     
-    public float getDeterminan(){
+    public double getDeterminan(){
         if(this.isMatrixSquare()){
             this.determinan = this.getDeterminanLokal(this.mtrx);
             return this.determinan;
@@ -293,7 +293,7 @@ public class Matriks {
             }
         }
         
-        float D = M2.getDeterminan();
+        double D = M2.getDeterminan();
         
         if (size == 2){
             Matriks Mx = new Matriks(this.baris, this.kolom-1,this.determinan);
@@ -314,10 +314,10 @@ public class Matriks {
                 Mx.mtrx[i][0] = this.mtrx[i][3];
                 My.mtrx[i][1] = this.mtrx[i][3];
             }
-            float Dx = Mx.getDeterminan();
-            float Dy = My.getDeterminan();
-            float resX = Dx/D;
-            float resY = Dy/D;
+            double Dx = Mx.getDeterminan();
+            double Dy = My.getDeterminan();
+            double resX = Dx/D;
+            double resY = Dy/D;
             Matriks Hasil = new Matriks(1, 2,1);
             Hasil.mtrx[0][0] = resX;
             Hasil.mtrx[0][1] = resY;
@@ -349,12 +349,12 @@ public class Matriks {
                 Mz.mtrx[i][2] = this.mtrx[i][3];
             }
 
-            float Dx = Mx.getDeterminan();
-            float Dy = My.getDeterminan();
-            float Dz = Mz.getDeterminan();
-            float resX = Dx/D;
-            float resY = Dy/D;
-            float resZ = Dz/D;
+            double Dx = Mx.getDeterminan();
+            double Dy = My.getDeterminan();
+            double Dz = Mz.getDeterminan();
+            double resX = Dx/D;
+            double resY = Dy/D;
+            double resZ = Dz/D;
             Matriks Hasil = new Matriks(1, 3,1);
             Hasil.mtrx[0][0] = resX;
             Hasil.mtrx[0][1] = resY;
@@ -371,8 +371,8 @@ public class Matriks {
     }
 
     /* INTERPOLASI */
-    public float Interpolasi(float num){
-        float hasil = 0;
+    public double Interpolasi(double num){
+        double hasil = 0;
         MatriksGauss res = new MatriksGauss(this.baris, this.baris+1, false);
         for (int i = 0; i < res.baris;i++){
             for (int j= 0 ; j < res.kolom; j++){
@@ -383,7 +383,7 @@ public class Matriks {
                     res.mtrx[i][j] = this.mtrx[i][1];
                 }
                 else{
-                    res.mtrx[i][j] = (float) Math.pow(this.mtrx[i][0],j);
+                    res.mtrx[i][j] = (double) Math.pow(this.mtrx[i][0],j);
                 }
                 
 
@@ -458,12 +458,12 @@ public class Matriks {
 
     /* DAPUR INTERNAL, BIAR GA DIPAKE AMA PUBLIK */
     
-    private float[][] getMatriksNonSejajar(int i, int j){
+    private double[][] getMatriksNonSejajar(int i, int j){
         
         int a,b; int countRow=0,countCol=0;
         int brs = this.baris;
         int kol = this.kolom;
-        float[][] temp = new float[brs-1][kol-1];
+        double[][] temp = new double[brs-1][kol-1];
         
         for(a=0;a<brs;a++){
             for(b=0;b<kol;b++){
@@ -478,16 +478,16 @@ public class Matriks {
         return temp;
     }
     
-    private float getDeterminanLokal(float[][] Mat){
+    private double getDeterminanLokal(double[][] Mat){
         int brs = Mat.length;
         int kol = Mat[0].length;
         //System.out.println(brs+" "+kol);
         if((brs==kol)&&brs==2&&kol==2){
-            float r = (Mat[0][0]*Mat[1][1])-(Mat[0][1]*Mat[1][0]);
+            double r = (Mat[0][0]*Mat[1][1])-(Mat[0][1]*Mat[1][0]);
             return r;
         }else if(brs==kol){
-            float[][] newarr = new float[brs-1][kol-1];
-            float det =0;
+            double[][] newarr = new double[brs-1][kol-1];
+            double det =0;
             for(int x=0;x<kol;x++){
                 for(int a=1;a<brs;a++){
                     int count =0;
@@ -501,7 +501,7 @@ public class Matriks {
                     //System.out.println("");
                 }
                 
-                float detsementara= (float) pow(-1,x)*Mat[0][x]*this.getDeterminanLokal(newarr);
+                double detsementara= (double) pow(-1,x)*Mat[0][x]*this.getDeterminanLokal(newarr);
                 det = det+detsementara;
             }
             return det;
@@ -515,15 +515,15 @@ public class Matriks {
         int a,b;
         for(a=0;a<this.baris;a++){
             for(b=0;b<this.kolom;b++){
-                this.mtrx[a][b] = scanner.nextFloat();
+                this.mtrx[a][b] = scanner.nextDouble();
             }
         }
     }
     
-    private float[][] getTranspose(float[][] M){
+    private double[][] getTranspose(double[][] M){
         int row = M.length;
         int col = M[0].length;
-        float[][] res = new float[col][row];
+        double[][] res = new double[col][row];
         
         if(M!=null){
             int a,b;
@@ -537,7 +537,7 @@ public class Matriks {
         return res;
     }
     
-    // private void debugarr(float[][] debugee){
+    // private void debugarr(double[][] debugee){
     //     int a,b;
     //     System.out.println("======================");
     //     System.out.println("**  MATRIX DEBUG   ***");

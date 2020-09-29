@@ -17,7 +17,7 @@ public class MatriksGauss extends Matriks {
         for (int k = 0; k<baris; k++) {
             // Inisialisasi nilai dan index untuk ditukar
             int pivotIdx = k;
-            float pivotMax = this.mtrx[pivotIdx][k];
+            double pivotMax = this.mtrx[pivotIdx][k];
 
             // Cari nilai max yg lebih besar buat ditukar 
             // jika ada
@@ -28,7 +28,6 @@ public class MatriksGauss extends Matriks {
             }
 
             if (this.mtrx[k][pivotIdx]==0) {
-                System.out.println("Matriks gaada penyelesaiaan");
                 return this;
             }
 
@@ -39,7 +38,7 @@ public class MatriksGauss extends Matriks {
 
             // Ubah menjadi matriks eselon baris
             for (int i= k+1; i<baris; i++) {
-                float ratio = this.mtrx[i][k]/this.mtrx[k][k];
+                double ratio = this.mtrx[i][k]/this.mtrx[k][k];
 
                 for (int j=k+1; j<kolom; j++) {
                     this.mtrx[i][j] = this.mtrx[i][j] - (ratio*this.mtrx[k][j]);
@@ -57,7 +56,7 @@ public class MatriksGauss extends Matriks {
     public Matriks getGaussJordan() {
         int baris = this.baris;
         int kolom = this.kolom;
-        float ratio;
+        double ratio;
 
         for (int i = 0; i<baris; i++) {
             // Mencari leading coefficient jika baris pertama
@@ -68,12 +67,9 @@ public class MatriksGauss extends Matriks {
                     c++;
                 }
                 if ((i+c)==baris) {
-                    System.out.println("Tidak bisa diubah");
                     return this;
                 }
                 swap(i, i+c);
-                this.tampilinMatriks();
-                System.out.println("");
             }
             
             // Mengubah menuju matriks eselon baris tereduksi
@@ -94,25 +90,57 @@ public class MatriksGauss extends Matriks {
 
     // Solusi untuk Eliminasi Gauss
     public void solusiGauss() {
-        // Ubah ke matriks eselon baris
-        this.getGaussMatriks();
+        if (this.getType()==1) {
+            // Array buat simpan jawaban
+            int jmlhVar = this.baris;
+            double[] arrJawab = new double[jmlhVar];
 
-        // Array buat simpan jawaban
-        int jmlhVar = this.baris;
-        float[] arrJawab = new float[jmlhVar];
+            for (int i = jmlhVar-1; i>=0; i--) {
+                // Konstanta setiap persamaan
+                arrJawab[i] = this.mtrx[i][jmlhVar];
 
-        for (int i = jmlhVar-1; i>=0; i--) {
-            // Konstanta setiap persamaan
-            arrJawab[i] = this.mtrx[i][jmlhVar];
-
-            for (int j = i+1; j<jmlhVar; j++) {
-                arrJawab[i] = arrJawab[i] - this.mtrx[i][j]*arrJawab[j];
+                for (int j = i+1; j<jmlhVar; j++) {
+                    arrJawab[i] = arrJawab[i] - this.mtrx[i][j]*arrJawab[j];
+                }
             }
-        }
 
-        for (int i = 0; i<jmlhVar; i++) {
-            System.out.println("Solusi X"+(i)+":");
-            System.out.printf("%.2f\n", arrJawab[i]);
+            for (int i = 0; i<jmlhVar; i++) {
+                System.out.print("Solusi X"+(i)+" = ");
+                System.out.printf("%.2f\n", arrJawab[i]);
+            }
+        } else if (this.getType()==2) {
+            for (int i = this.baris-1; i>=0; i--) {
+                if (!this.isBaris0(i)) {
+                    double leadCoef = this.mtrx[i][idxLeadCoef(i)];
+                    double konstan = this.mtrx[i][this.kolom-1]/leadCoef;
+                    boolean firstVar = true;
+
+                    // Print solusi
+                    System.out.print("Solusi X"+(idxLeadCoef(i))+" = ");
+                    for (int j = idxLeadCoef(i)+1; j<this.kolom-1; j++) {
+                        if (this.mtrx[i][j]/leadCoef>0) {
+                            System.out.printf("- %.2f",(this.mtrx[i][j]/leadCoef));
+                            System.out.print("X"+(j)+" ");
+                        }
+                        if (this.mtrx[i][j]/leadCoef<0) {
+                            if (firstVar) {
+                                System.out.printf("%.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                                firstVar = false;
+                            } else {
+                                System.out.printf("+ %.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                            }
+                            System.out.print("X"+(j)+" ");
+                        }
+                    }
+                    if (konstan>=0) {
+                        System.out.printf("+ %.2f\n",konstan);
+                    } else if (konstan<0) {
+                        System.out.printf("- %.2f\n",(konstan)*-1);
+                    }
+                }
+            }
+        } else if (this.getType()==3) {
+            System.out.println("SPL tidak memiliki solusi.");
         }
     }
     public float[] solusiGaussV2() {
@@ -137,28 +165,71 @@ public class MatriksGauss extends Matriks {
 
     // Solusi untuk Eliminasi Gauss Jordan
     public void solusiGaussJordan() {
-        // Ubah ke versi matriks eselon baris tereduksi
-        this.getGaussJordan();
+        if (this.getType()==1) {
+            for (int i = 0; i<baris; i++) {
+                double x = this.mtrx[i][baris]/this.mtrx[i][i];
+                System.out.print("Solusi X"+(i)+" = ");
+                System.out.printf("%.2f\n", x);
+            } 
+        } else if (this.getType()==2) {
+            for (int i = this.baris-1; i>=0; i--) {
+                if (!this.isBaris0(i)) {
+                    double leadCoef = this.mtrx[i][idxLeadCoef(i)];
+                    double konstan = this.mtrx[i][this.kolom-1]/leadCoef;
+                    boolean firstVar = true;
 
-        for (int i = 0; i<baris; i++) {
-            float x = this.mtrx[i][baris]/this.mtrx[i][i];
-            System.out.println("Solusi X"+(i)+":");
-            System.out.printf("%.2f\n", x);
+                    // Print solusi
+                    System.out.print("Solusi X"+(idxLeadCoef(i))+" = ");
+                    for (int j = idxLeadCoef(i)+1; j<this.kolom-1; j++) {
+                        if (this.mtrx[i][j]/leadCoef>0) {
+                            System.out.printf("- %.2f",(this.mtrx[i][j]/leadCoef));
+                            System.out.print("X"+(j)+" ");
+                        }
+                        if (this.mtrx[i][j]/leadCoef<0) {
+                            if (firstVar) {
+                                System.out.printf("%.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                                firstVar = false;
+                            } else {
+                                System.out.printf("+ %.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                            }
+                            System.out.print("X"+(j)+" ");
+                        }
+                    }
+                    if (konstan>=0) {
+                        System.out.printf("+ %.2f\n",konstan);
+                    } else if (konstan<0) {
+                        System.out.printf("- %.2f\n",(konstan)*-1);
+                    }
+                }
+            }
+        } else if (this.getType()==3) {
+            System.out.println("SPL tidak memiliki solusi.");
         }
+    }
+
+    // Fungsi copy matriks
+    public MatriksGauss copyMatriks(MatriksGauss M){
+        MatriksGauss temp = new MatriksGauss(M.baris,M.kolom,false);
+        for (int i=0; i<M.baris; i++) {
+            for (int j=0; j<M.kolom; j++) {
+                temp.mtrx[i][j] = M.mtrx[i][j];
+            }
+        }
+        return temp;
     }
 
     /*FUNGSI-FUNGSI PRIVATE YANG TIDAK DIPAKAI DI MAIN.JAVA */
     // Fungsi tukar baris
     private void swap(int i, int j) {
         for (int k=0; k<this.kolom; k++) {
-            float temp = this.mtrx[i][k];
+            double temp = this.mtrx[i][k];
             this.mtrx[i][k] = this.mtrx[j][k];
             this.mtrx[j][k] = temp;
         }
     }
 
     // Fungsi bilangan mutlak
-    private float abs(float num) {
+    private double abs(double num) {
         if (num < 0) {
             return num*-1;
         } else {
@@ -167,10 +238,10 @@ public class MatriksGauss extends Matriks {
     }
 
     // Fungsi cari bilangan utama setiap baris
-    private float getLeadCoef(int i) {
+    private double getLeadCoef(int i) {
         boolean found = false;
         int kolom = this.kolom;
-        float leadCoef = 0;
+        double leadCoef = 0;
         int j = 0;
 
         while ((!found) && (j<kolom)) {
@@ -189,7 +260,7 @@ public class MatriksGauss extends Matriks {
     private void bagiLeadCoef() {
 
         for (int i = 0; i<baris; i++) {
-            float leadCoef = this.getLeadCoef(i);
+            double leadCoef = this.getLeadCoef(i);
             if (leadCoef!=0) {
                 for (int j = 0; j<kolom; j++) {
                     this.mtrx[i][j] = this.mtrx[i][j]/leadCoef;
@@ -198,5 +269,104 @@ public class MatriksGauss extends Matriks {
         }       
     }
 
+<<<<<<< HEAD
 	
+=======
+    // Fungsi cari index kolom lead koefisien suatu baris
+    private int idxLeadCoef(int i) {
+        int j = 0;
+
+        while (j<this.kolom) {
+            if (this.mtrx[i][j] != 0) {
+                return j;
+            } else {
+                j++;
+            }
+        }
+
+        return j;
+    }
+
+    // Fungsi untuk menentukan apakah suatu baris matriks hanya berisi 0
+    private boolean isBaris0(int i) {
+        boolean isNol = true;
+        int j = 0;
+
+        while ((isNol) && (j<this.kolom)) {
+            if (this.mtrx[i][j]!=0) {
+                isNol = false;
+            } else {
+                j++;
+            }
+        }
+
+        return isNol;
+    }
+
+    /* Fungsi untuk menentukan tipe matriks: 
+     1 = solusi unik 
+     2 = banyak solusi
+     3 = tidak ada solusi
+    */
+    private int getType() {
+        // Inisialisasi array buat simpan jenis tiap baris
+        int[] typeBaris = new int[this.baris]; 
+
+        // Cek jenis tiap baris
+        for (int i=this.baris-1; i>=0; i--) {
+            if (this.isBaris0(i)) {
+                typeBaris[i] = 0;
+            } else {
+                int idxLead = this.idxLeadCoef(i);
+
+                if (idxLead == this.kolom-1) {
+                    typeBaris[i] = 3;
+                } else {
+                    boolean unik = true;
+
+                    for (int j = idxLead + 1; j<this.kolom-1; j++) {
+                        if (this.mtrx[i][j]!=0) {
+                            unik = false;
+                            break;
+                        }
+                    }
+
+                    if (unik) {
+                        typeBaris[i] = 1;
+                    } else {
+                        typeBaris[i] = 2;
+                    }
+                }
+            }
+        }
+
+        // Cek jenis matriks dari jenis tiap baris
+        boolean isType3 =  false;
+        boolean isType2 = false;
+        boolean isType1 = false;
+
+        for (int i = 0; i<this.baris; i++) {
+            if (typeBaris[i]==3) {
+                isType3 = true;
+            } else if (typeBaris[i]==2) {
+                isType2 = true;
+            } else if (typeBaris[i]==1) {
+                isType1 = true;
+            }
+        }
+
+        // Return tipe matriks yg benar
+        int type=0;
+
+        if (isType3) {
+            type = 3;
+        } else if (isType2 & !isType3 & !isType1) {
+            type = 2;
+        } else if (isType1 & !isType3) {
+            type = 1;
+        }
+
+        return type;
+    }
+>>>>>>> e5ef4df5e9151dbd5ca6b646e986f3c11061bd5f
 }
