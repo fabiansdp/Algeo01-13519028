@@ -115,6 +115,25 @@ public class MatriksGauss extends Matriks {
             System.out.printf("%.2f\n", arrJawab[i]);
         }
     }
+    public float[] solusiGaussV2() {
+        // Ubah ke matriks eselon baris
+        this.getGaussMatriks();
+
+        // Array buat simpan jawaban
+        int jmlhVar = this.baris;
+        float[] arrJawab = new float[jmlhVar];
+
+        for (int i = jmlhVar-1; i>=0; i--) {
+            // Konstanta setiap persamaan
+            arrJawab[i] = this.mtrx[i][jmlhVar];
+
+            for (int j = i+1; j<jmlhVar; j++) {
+                arrJawab[i] = arrJawab[i] - this.mtrx[i][j]*arrJawab[j];
+            }
+        }
+
+        return arrJawab;
+    }
 
     // Solusi untuk Eliminasi Gauss Jordan
     public void solusiGaussJordan() {
@@ -178,4 +197,6 @@ public class MatriksGauss extends Matriks {
             }
         }       
     }
+
+	
 }

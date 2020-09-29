@@ -119,6 +119,21 @@ public class Matriks {
         res.determinan = getDeterminan();
         return res;
     }
+    public float SumKolom (int i){
+        float temp = 0;
+        for (int j = 0; j < this.baris;j++){
+            temp += this.mtrx[j][i];
+        }
+        return temp;
+    }
+
+    public Matriks KaliKolom (int i,int j){
+        Matriks res = new Matriks(this.baris, 1, false);
+        for (int k = 0; k < res.baris; k++){
+            res.mtrx[k][0] = this.mtrx[k][i] * this.mtrx[k][j];
+        }
+        return res;
+    }
 
     public void TambahBaris ( int i, int j){
          // Kita validasi Barisnya dulu
@@ -374,14 +389,73 @@ public class Matriks {
 
             }
         }
-
-        res.getGaussJordan();
+        float[] temp = res.solusiGaussV2();
         for (int k = 0; k < res.baris;k++){
-            hasil += (res.mtrx[k][res.kolom-1] * (Math.pow(num, k)));
+            hasil += (temp[k] * (Math.pow(num, k)));
         }
 
         return hasil;
     }
+
+
+
+
+    /* REGRESI LINEAR BERGANDA */
+    public float RegresiLinierBerganda(float x1,float x2,float x3){
+        float hasil = 0;
+        MatriksGauss res = new MatriksGauss(this.kolom, this.kolom+1, false);
+        for (int a = 0; a < res.baris; a++){
+            if (a==0){
+                for (int b = 0; b < res.kolom;b++){
+                    if (b==0){
+                        res.mtrx[a][b] = this.baris;
+                    }
+                    else if (b==res.kolom-1){
+                        res.mtrx[a][b] = SumKolom(0);
+                    }
+                    else{
+                        res.mtrx[a][b] = SumKolom(b); 
+                    }
+                }
+            }
+            else{
+                for (int c = 0; c < res.kolom;c++){
+                    if (c==0){
+                        res.mtrx[a][c] = SumKolom(a);
+                    }
+                    else if (c==res.kolom-1){
+                        Matriks temp = KaliKolom(a, 0);
+                        res.mtrx[a][c] = temp.SumKolom(0);
+                    }
+                    else{
+                        Matriks temp = KaliKolom(a, c);
+                        res.mtrx[a][c] = temp.SumKolom(0);
+                    }
+                }
+            }
+        }
+        float[] temp = res.solusiGaussV2();
+
+        float temp1,temp2,temp3,temp4,temp5;
+        temp1 = res.mtrx[0][0];
+        temp2 = res.mtrx[0][1];
+        temp3 = res.mtrx[0][2];
+        temp4 = res.mtrx[0][3];
+        temp5 = res.mtrx[0][4];
+        temp1 += 1;
+        temp2 += x1;
+        temp3 += x2;
+        temp4 += x3;
+
+        float newtemp5 = (temp[0] * temp1) + (temp[1]*temp2)+(temp[2]*temp3)+(temp[3]*temp4);
+        hasil = newtemp5-temp5;
+
+
+        return hasil;
+    }
+    
+
+
     /* DAPUR INTERNAL, BIAR GA DIPAKE AMA PUBLIK */
     
     private float[][] getMatriksNonSejajar(int i, int j){
