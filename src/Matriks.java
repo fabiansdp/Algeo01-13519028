@@ -119,8 +119,8 @@ public class Matriks {
         res.determinan = getDeterminan();
         return res;
     }
-    public float SumKolom (int i){
-        float temp = 0;
+    public double SumKolom (int i){
+        double temp = 0;
         for (int j = 0; j < this.baris;j++){
             temp += this.mtrx[j][i];
         }
@@ -389,7 +389,7 @@ public class Matriks {
 
             }
         }
-        float[] temp = res.solusiGaussV2();
+        double[] temp = res.solusiGaussV2();
         for (int k = 0; k < res.baris;k++){
             hasil += (temp[k] * (Math.pow(num, k)));
         }
@@ -401,8 +401,8 @@ public class Matriks {
 
 
     /* REGRESI LINEAR BERGANDA */
-    public float RegresiLinierBerganda(float x1,float x2,float x3){
-        float hasil = 0;
+    public double RegresiLinierBerganda(double x1,double x2,double x3){
+        double hasil = 0;
         MatriksGauss res = new MatriksGauss(this.kolom, this.kolom+1, false);
         for (int a = 0; a < res.baris; a++){
             if (a==0){
@@ -434,9 +434,9 @@ public class Matriks {
                 }
             }
         }
-        float[] temp = res.solusiGaussV2();
+        double[] temp = res.solusiGaussV2();
 
-        float temp1,temp2,temp3,temp4,temp5;
+        double temp1,temp2,temp3,temp4,temp5;
         temp1 = res.mtrx[0][0];
         temp2 = res.mtrx[0][1];
         temp3 = res.mtrx[0][2];
@@ -447,7 +447,7 @@ public class Matriks {
         temp3 += x2;
         temp4 += x3;
 
-        float newtemp5 = (temp[0] * temp1) + (temp[1]*temp2)+(temp[2]*temp3)+(temp[3]*temp4);
+        double newtemp5 = (temp[0] * temp1) + (temp[1]*temp2)+(temp[2]*temp3)+(temp[3]*temp4);
         hasil = newtemp5-temp5;
 
 

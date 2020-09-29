@@ -143,13 +143,13 @@ public class MatriksGauss extends Matriks {
             System.out.println("SPL tidak memiliki solusi.");
         }
     }
-    public float[] solusiGaussV2() {
+    public double[] solusiGaussV2() {
         // Ubah ke matriks eselon baris
         this.getGaussMatriks();
 
         // Array buat simpan jawaban
         int jmlhVar = this.baris;
-        float[] arrJawab = new float[jmlhVar];
+        double[] arrJawab = new double[jmlhVar];
 
         for (int i = jmlhVar-1; i>=0; i--) {
             // Konstanta setiap persamaan
@@ -269,9 +269,6 @@ public class MatriksGauss extends Matriks {
         }       
     }
 
-<<<<<<< HEAD
-	
-=======
     // Fungsi cari index kolom lead koefisien suatu baris
     private int idxLeadCoef(int i) {
         int j = 0;
@@ -368,5 +365,4 @@ public class MatriksGauss extends Matriks {
 
         return type;
     }
->>>>>>> e5ef4df5e9151dbd5ca6b646e986f3c11061bd5f
 }
