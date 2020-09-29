@@ -110,31 +110,33 @@ public class MatriksGauss extends Matriks {
             }
         } else if (this.getType()==2) {
             for (int i = this.baris-1; i>=0; i--) {
-                double leadCoef = this.mtrx[i][idxLeadCoef(i)];
-                double konstan = this.mtrx[i][this.kolom-1]/leadCoef;
-                boolean firstVar = true;
+                if (!this.isBaris0(i)) {
+                    double leadCoef = this.mtrx[i][idxLeadCoef(i)];
+                    double konstan = this.mtrx[i][this.kolom-1]/leadCoef;
+                    boolean firstVar = true;
 
-                // Print solusi
-                System.out.print("Solusi X"+(idxLeadCoef(i))+" = ");
-                for (int j = idxLeadCoef(i)+1; j<this.kolom-1; j++) {
-                    if (this.mtrx[i][j]/leadCoef>0) {
-                        System.out.printf("- %.2f",(this.mtrx[i][j]/leadCoef));
-                        System.out.print("X"+(j)+" ");
-                    }
-                    if (this.mtrx[i][j]/leadCoef<0) {
-                        if (firstVar) {
-                            System.out.printf("%.2f",(this.mtrx[i][j]/leadCoef)*-1);
-                            firstVar = false;
-                        } else {
-                            System.out.printf("+ %.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                    // Print solusi
+                    System.out.print("Solusi X"+(idxLeadCoef(i))+" = ");
+                    for (int j = idxLeadCoef(i)+1; j<this.kolom-1; j++) {
+                        if (this.mtrx[i][j]/leadCoef>0) {
+                            System.out.printf("- %.2f",(this.mtrx[i][j]/leadCoef));
+                            System.out.print("X"+(j)+" ");
                         }
-                        System.out.print("X"+(j)+" ");
+                        if (this.mtrx[i][j]/leadCoef<0) {
+                            if (firstVar) {
+                                System.out.printf("%.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                                firstVar = false;
+                            } else {
+                                System.out.printf("+ %.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                            }
+                            System.out.print("X"+(j)+" ");
+                        }
                     }
-                }
-                if (konstan>=0) {
-                    System.out.printf("+ %.2f\n",konstan);
-                } else if (konstan<0) {
-                    System.out.printf("- %.2f\n",(konstan)*-1);
+                    if (konstan>=0) {
+                        System.out.printf("+ %.2f\n",konstan);
+                    } else if (konstan<0) {
+                        System.out.printf("- %.2f\n",(konstan)*-1);
+                    }
                 }
             }
         } else if (this.getType()==3) {
@@ -152,31 +154,33 @@ public class MatriksGauss extends Matriks {
             } 
         } else if (this.getType()==2) {
             for (int i = this.baris-1; i>=0; i--) {
-                double leadCoef = this.mtrx[i][idxLeadCoef(i)];
-                double konstan = this.mtrx[i][this.kolom-1]/leadCoef;
-                boolean firstVar = true;
+                if (!this.isBaris0(i)) {
+                    double leadCoef = this.mtrx[i][idxLeadCoef(i)];
+                    double konstan = this.mtrx[i][this.kolom-1]/leadCoef;
+                    boolean firstVar = true;
 
-                // Print solusi
-                System.out.print("Solusi X"+(idxLeadCoef(i))+" = ");
-                for (int j = idxLeadCoef(i)+1; j<this.kolom-1; j++) {
-                    if (this.mtrx[i][j]/leadCoef>0) {
-                        System.out.printf("- %.2f",(this.mtrx[i][j]/leadCoef));
-                        System.out.print("X"+(j)+" ");
-                    }
-                    if (this.mtrx[i][j]/leadCoef<0) {
-                        if (firstVar) {
-                            System.out.printf("%.2f",(this.mtrx[i][j]/leadCoef)*-1);
-                            firstVar = false;
-                        } else {
-                            System.out.printf("+ %.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                    // Print solusi
+                    System.out.print("Solusi X"+(idxLeadCoef(i))+" = ");
+                    for (int j = idxLeadCoef(i)+1; j<this.kolom-1; j++) {
+                        if (this.mtrx[i][j]/leadCoef>0) {
+                            System.out.printf("- %.2f",(this.mtrx[i][j]/leadCoef));
+                            System.out.print("X"+(j)+" ");
                         }
-                        System.out.print("X"+(j)+" ");
+                        if (this.mtrx[i][j]/leadCoef<0) {
+                            if (firstVar) {
+                                System.out.printf("%.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                                firstVar = false;
+                            } else {
+                                System.out.printf("+ %.2f",(this.mtrx[i][j]/leadCoef)*-1);
+                            }
+                            System.out.print("X"+(j)+" ");
+                        }
                     }
-                }
-                if (konstan>=0) {
-                    System.out.printf("+ %.2f\n",konstan);
-                } else if (konstan<0) {
-                    System.out.printf("- %.2f\n",(konstan)*-1);
+                    if (konstan>=0) {
+                        System.out.printf("+ %.2f\n",konstan);
+                    } else if (konstan<0) {
+                        System.out.printf("- %.2f\n",(konstan)*-1);
+                    }
                 }
             }
         } else if (this.getType()==3) {
@@ -283,22 +287,63 @@ public class MatriksGauss extends Matriks {
      3 = tidak ada solusi
     */
     private int getType() {
-        int i = this.baris-1;
+        // Inisialisasi array buat simpan jenis tiap baris
+        int[] typeBaris = new int[this.baris]; 
 
-        if (!isBaris0(i) && (i>=0)) {
-            // Jika lead coef di kolom terakhir
-            if (idxLeadCoef(i)==this.kolom-1) {
-                return 3;
+        // Cek jenis tiap baris
+        for (int i=this.baris-1; i>=0; i--) {
+            if (this.isBaris0(i)) {
+                typeBaris[i] = 0;
             } else {
-                for (int j=idxLeadCoef(i)+1; j<this.kolom-1; j++) {
-                    if (this.mtrx[i][j]!=0) {
-                        return 2;
+                int idxLead = this.idxLeadCoef(i);
+
+                if (idxLead == this.kolom-1) {
+                    typeBaris[i] = 3;
+                } else {
+                    boolean unik = true;
+
+                    for (int j = idxLead + 1; j<this.kolom-1; j++) {
+                        if (this.mtrx[i][j]!=0) {
+                            unik = false;
+                            break;
+                        }
+                    }
+
+                    if (unik) {
+                        typeBaris[i] = 1;
+                    } else {
+                        typeBaris[i] = 2;
                     }
                 }
             }
-        } else {
-            i--;
         }
-        return 1;
+
+        // Cek jenis matriks dari jenis tiap baris
+        boolean isType3 =  false;
+        boolean isType2 = false;
+        boolean isType1 = false;
+
+        for (int i = 0; i<this.baris; i++) {
+            if (typeBaris[i]==3) {
+                isType3 = true;
+            } else if (typeBaris[i]==2) {
+                isType2 = true;
+            } else if (typeBaris[i]==1) {
+                isType1 = true;
+            }
+        }
+
+        // Return tipe matriks yg benar
+        int type=0;
+
+        if (isType3) {
+            type = 3;
+        } else if (isType2 & !isType3 & !isType1) {
+            type = 2;
+        } else if (isType1 & !isType3) {
+            type = 1;
+        }
+
+        return type;
     }
 }
