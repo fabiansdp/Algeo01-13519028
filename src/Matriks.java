@@ -386,6 +386,7 @@ public class Matriks {
 
             }
         }
+
         double[] temp = res.solusiGaussV2();
         for (int k = 0; k < res.baris;k++){
             hasil += (temp[k] * (Math.pow(num, k)));

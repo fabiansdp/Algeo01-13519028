@@ -8,6 +8,17 @@ public class MatriksGauss extends Matriks {
     public MatriksGauss(int baris, int kolom, boolean isi) {
         super(baris,kolom,isi);
     }
+    public MatriksGauss(Matriks mat){
+        super(mat.getBaris(),mat.getKolom(),0);
+        if(mat.isMatrixSquare()){
+            getDeterminan();
+        }
+        for(int x=0;x<this.baris;x++){
+            for(int y=0; y<this.kolom;y++){
+                setElement(x,y,mat.getElement(x,y));
+            }
+        }
+    }
 
     // ALgoritma Gauss Elimination
     public Matriks getGaussMatriks() {
@@ -86,6 +97,55 @@ public class MatriksGauss extends Matriks {
         this.bagiLeadCoef();
 
         return this;
+    }
+
+    public Matriks getInversGJ(){
+        if(!(this.kolom == 2*this.baris)){
+            return new Matriks(0,0,0);
+        }else {
+            int baris = this.baris;
+            int kolom = this.kolom;
+            double ratio;
+
+            for (int i = 0; i<baris; i++) {
+                // Mencari leading coefficient jika baris pertama
+                // variabel pertama 0
+                if (this.mtrx[i][i]==0) {
+                    int c = 1;
+                    while (((i+c)<baris) && (this.mtrx[i+c][i]==0)) {
+                        c++;
+                    }
+                    if ((i+c)==baris) {
+                        return this;
+                    }
+                    swap(i, i+c);
+                }
+
+                // Mengubah menuju matriks eselon baris tereduksi
+                for (int j = 0; j<baris; j++) {
+                    if (i!=j) {
+                        ratio = this.mtrx[j][i]/this.mtrx[i][i];
+
+                        for (int k=0; k<kolom; k++) {
+                            this.mtrx[j][k] = this.mtrx[j][k] - this.mtrx[i][k]*ratio;
+                        }
+                    }
+                }
+            }
+            this.bagiLeadCoef();
+            System.out.println("Matriks setelah di Invers metode baris elementer");
+            this.tampilinMatriks();
+            System.out.println();
+            Matriks hasil = new Matriks(this.baris,this.baris,0);
+            for (int j = 0; j<hasil.baris; j++) {
+                for (int k=0; k<hasil.kolom; k++) {
+                    hasil.setElement(j,k,this.getElement(j,hasil.kolom+k));
+                }
+            }
+
+            return hasil;
+        }
+
     }
 
     // Solusi untuk Eliminasi Gauss
@@ -263,6 +323,9 @@ public class MatriksGauss extends Matriks {
         for (int i=0; i<baris; i++) {
             determinan = determinan * (this.mtrx[i][i]);
         }
+
+        System.out.println("Matriks Tereduksi");
+        this.tampilinMatriks();
 
         determinan = determinan*(Math.pow(-1, jmlhSwap));
         return determinan;

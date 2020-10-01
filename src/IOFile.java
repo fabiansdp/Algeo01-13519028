@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tubesalgeo;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,11 +25,12 @@ public class IOFile {
    ArrayList<String> lineread;
    boolean matriksAble = true;
    int kolomMatriks=0;
-   public static String PATH_TXT = "src/tubesalgeo/";
+   public static String PATH_TXT = "test\\";
    //public IOFile(){}
    public IOFile(String filename){
        try {
-           f = new File(filename);
+           f = new File(PATH_TXT+filename+".txt");
+
            lineread = new ArrayList<>();
            Scanner sc = new Scanner(f);
            int count =0;
@@ -90,7 +91,7 @@ public class IOFile {
        }
    }
 
-   public static void writeMatriks(Matriks matriks,String filename){
+   public static boolean writeMatriks(Matriks matriks,String filename){
        String newpath = PATH_TXT+filename+".txt";
        File file = new File(newpath);
        String teks="";
@@ -108,9 +109,13 @@ public class IOFile {
 
                byte[] b = teks.getBytes();
                Files.write(Paths.get(newpath),b);
+               return true;
+           }else{
+               return false;
            }
        } catch (IOException e) {
            e.printStackTrace();
+           return false;
        }
    }
 
