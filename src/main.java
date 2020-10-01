@@ -6,7 +6,7 @@ class main {
                 System.out.println(ress);
                 */
 
-                
+                /*
                 MatriksGauss n = new MatriksGauss(10, 2, true);
                 double coba1 = n.Interpolasi((float) 5.80); // 25 Mei = 5 + (25/31)
                 double coba2 = n.Interpolasi((float) 8.96); //8 + (30/31)
@@ -15,6 +15,7 @@ class main {
                 System.out.println(coba1);
                 System.out.println(coba2);
                 System.out.println(coba3);
+                */
                 
                 
                 
@@ -24,6 +25,11 @@ class main {
                 float coba1 = n.Interpolasi((float) 9.2);
                 System.out.println(coba1);
                 */
+                
+                MatriksGauss n = new MatriksGauss(12, 10, true);
+                System.out.println("========= Bentuk gauss =========");
+                
+                n.getGaussJordan().tampilinMatriks();
 
 
 
@@ -40,9 +46,6 @@ class main {
                 System.out.println(coba4);
 
                 */
-                
-               MatriksGauss M1 = new MatriksGauss(3,4,true);
-               M1.getGaussJordan().tampilinMatriks();
-               M1.solusiGauss();
+
         }
 }
