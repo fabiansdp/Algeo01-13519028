@@ -218,6 +218,56 @@ public class MatriksGauss extends Matriks {
         return temp;
     }
 
+    // Fungsi mencari determinan sebuah matriks
+    // melalui operasi reduksi baris
+    public double getDetRowReduced() {
+        int baris = this.baris;
+        int kolom = this.kolom;
+        int jmlhSwap = 0;
+        double determinan = 1;
+
+        for (int k = 0; k<baris; k++) {
+            // Inisialisasi nilai dan index untuk ditukar
+            int pivotIdx = k;
+            double pivotMax = this.mtrx[pivotIdx][k];
+
+            // Cari nilai max yg lebih besar buat ditukar 
+            // jika ada
+            for (int i = k+1; i<baris; i++) {
+                if (abs(this.mtrx[i][k])>pivotMax) {
+                    pivotMax = this.mtrx[i][k];
+                }
+            }
+
+            if (this.mtrx[k][pivotIdx]==0) {
+                break;
+            }
+
+            // Tukar barisan
+            if (pivotIdx != k) {
+                swap(k, pivotIdx);
+                jmlhSwap += 1;
+            }
+
+            // Ubah menjadi matriks eselon baris
+            for (int i= k+1; i<baris; i++) {
+                double ratio = this.mtrx[i][k]/this.mtrx[k][k];
+
+                for (int j=k+1; j<kolom; j++) {
+                    this.mtrx[i][j] = this.mtrx[i][j] - (ratio*this.mtrx[k][j]);
+                }
+                this.mtrx[i][k] = 0;
+            }
+        }
+
+        for (int i=0; i<baris; i++) {
+            determinan = determinan * (this.mtrx[i][i]);
+        }
+
+        determinan = determinan*(Math.pow(-1, jmlhSwap));
+        return determinan;
+    }
+
     /*FUNGSI-FUNGSI PRIVATE YANG TIDAK DIPAKAI DI MAIN.JAVA */
     // Fungsi tukar baris
     private void swap(int i, int j) {
