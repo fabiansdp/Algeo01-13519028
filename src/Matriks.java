@@ -138,7 +138,7 @@ public class Matriks {
     public void TambahBaris ( int i, int j){
          // Kita validasi Barisnya dulu
         // Baris tidak valid bila berada dibawah 0 dan diatas baris
-        if (i < 0 || i > baris){
+        if ((i < 0 || i > baris) && (j < 0 || j > baris)){
             System.out.printf("Baris tidak valid");
         }
         else{
@@ -152,9 +152,8 @@ public class Matriks {
         for (int i = 0; i < res.baris; i++){
             for (int j = 0; j < res.kolom; j++){
                 res.mtrx[i][j] = 0;
-                for (int k = 0; k < this.kolom; k++){
-                    res.mtrx[i][j] += M1.mtrx[i][j] + M2.mtrx[i][j];
-                }
+                res.mtrx[i][j] += M1.mtrx[i][j] + M2.mtrx[i][j];
+
             }
         }
         res.determinan = getDeterminan();
@@ -180,9 +179,7 @@ public class Matriks {
         for (int i = 0; i < res.baris; i++){
             for (int j = 0; j < res.kolom; j++){
                 res.mtrx[i][j] = 0;
-                for (int k = 0; k < this.kolom; k++){
-                    res.mtrx[i][j] += M1.mtrx[i][j] - M2.mtrx[i][j];
-                }
+                res.mtrx[i][j] += M1.mtrx[i][j] - M2.mtrx[i][j];
             }
         }
         res.determinan = getDeterminan();
@@ -455,6 +452,20 @@ public class Matriks {
     }
     
 
+    public double getDeterminanLokalV2(MatriksGauss M){
+        double temp = 1.0;
+        M.getGaussMatriks().tampilinMatriks();
+        for (int i = 0; i < M.baris; i++){
+            for (int j = 0; j < M.kolom; j++){
+                if (i==j){
+                    temp *= M.mtrx[i][j];
+                }
+            }
+        }
+        return temp;
+
+    }
+
 
     /* DAPUR INTERNAL, BIAR GA DIPAKE AMA PUBLIK */
     
@@ -509,7 +520,7 @@ public class Matriks {
             return 0;
         }
     }
-    
+
     private void isiMatriks(){
         Scanner scanner = new Scanner(System.in);
         int a,b;
@@ -536,6 +547,10 @@ public class Matriks {
         
         return res;
     }
+
+	public int getDeterminanLokalV2(Matriks asu) {
+		return 0;
+	}
     
     // private void debugarr(double[][] debugee){
     //     int a,b;
