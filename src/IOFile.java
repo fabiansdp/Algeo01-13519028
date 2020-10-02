@@ -96,7 +96,15 @@ public class IOFile {
    }
 
    public static boolean writeMatriks(Matriks matriks,String filename){
-       String newpath = PATH_TXT+filename+".txt";
+       File cek = new File("README.md");
+       String pths="";
+       try {
+           pths = String.copyValueOf(cek.getCanonicalPath().toCharArray(),0,cek.getCanonicalPath().length()-9);
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
+
+       String newpath = pths+PATH_TXT+filename+".txt";
        File file = new File(newpath);
        String teks="";
        try{
