@@ -18,24 +18,24 @@ ex = test1.txt -> hanya tuliskan test1
 
 untuk input file txt pastikan tidak ada enter yang kosong atau kolom yang kurang, misal 
 
-contoh 1 (benar)
-1 2 3 4       {line 1}
-5 6 7 8       {line 2}
+contoh 1 (benar) <br>
+1 2 3 4       {line 1} <br>
+5 6 7 8       {line 2}<br>
 
-contoh 2 (benar)
-1 2           {line 1}
+contoh 2 (benar)<br>
+1 2           {line 1}<br>
 
-contoh 3 (benar)
-1 2 -3        {line 1}
-9.5 9 9       {line 2}
-0 0.1 0       {line 3}
+contoh 3 (benar)<br>
+1 2 -3        {line 1}<br>
+9.5 9 9       {line 2}<br>
+0 0.1 0       {line 3}<br>
 
-contoh  4 (salah, pada baris 2 kurang 1 elemen)
-1 2 3         {line 1}
-9 8           {line 2}
-9 8 7         {line 3}
+contoh  4 (salah, pada baris 2 kurang 1 elemen)<br>
+1 2 3         {line 1}<br>
+9 8           {line 2}<br>
+9 8 7         {line 3}<br>
 
-contoh 5 (salah, ada enter kosong)
-1 2 3          {line 1}
-44 32 111      {line 2}
-{empty line}   {line 3}
+contoh 5 (salah, ada enter kosong)<br>
+1 2 3          {line 1}<br>
+44 32 111      {line 2}<br>
+{empty line}   {line 3}<br>
