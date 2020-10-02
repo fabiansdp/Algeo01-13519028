@@ -25,12 +25,14 @@ public class IOFile {
    ArrayList<String> lineread;
    boolean matriksAble = true;
    int kolomMatriks=0;
-   public static String PATH_TXT = "test\\";
+   public static String PATH_TXT = "/test/";
    //public IOFile(){}
    public IOFile(String filename){
        try {
-           f = new File(PATH_TXT+filename+".txt");
-
+           File cek = new File("README.md");
+           String pths = String.copyValueOf(cek.getCanonicalPath().toCharArray(),0,cek.getCanonicalPath().length()-9);
+           //System.out.println(cek.getCanonicalPath());
+           f = new File(pths+PATH_TXT+filename+".txt");
            lineread = new ArrayList<>();
            Scanner sc = new Scanner(f);
            int count =0;
@@ -69,6 +71,8 @@ public class IOFile {
        } catch (FileNotFoundException e) {
            e.printStackTrace();
            matriksAble = false;
+       } catch (IOException e) {
+           e.printStackTrace();
        }
    }
 
